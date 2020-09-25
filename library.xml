@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Library>	
+	<Catalogue category="Technical Books">
+		<Book>
+			<Title>C++ from the Ground Up</Title>
+			<Author>Herbert Schildt</Author>
+			<ISBN>9780072228977</ISBN>
+		</Book>
+		<Book>
+			<Title>Python Programming for Beginners</Title>
+			<Author>Jason Cannon</Author>
+			<ISBN>9781501000867</ISBN>
+		</Book>
+	</Catalogue>
+	<Catalogue category="Cookery Books">
+		<Book>
+			<Title>7 Ways</Title>
+			<Author>Jamie Oliver</Author>
+			<ISBN>9780718156817</ISBN>
+		</Book>
+		<Book>
+			<Title>Gordon Ramsay's Home Cooking: Everything You Need to Know to Make Fabulous Food </Title>
+			<Author>Gordon Ramsay</Author>
+			<ISBN>8601420770577</ISBN>
+		</Book>
+	</Catalogue>
+</Library>
