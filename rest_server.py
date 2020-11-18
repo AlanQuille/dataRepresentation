@@ -1,4 +1,4 @@
-from flask import Flask, url_for , request, redirect, abort, jsonify
+from flask import Flask, url_for , request, redirect, abort, jsonify, render_template
 
 app =  Flask(__name__, static_url_path='', static_folder='staticpages')
 
@@ -9,9 +9,19 @@ books=[
 ]
 nextId=4
 
-@app.route('/')
-def index():
-    return "hello"
+#@app.route('/index.html')
+#def render_static():
+ #   output = "Rest server!"
+ #   return render_template('index.html', output=output)
+
+@app.route('/homepage.html')
+def render_static():
+    output = "Rest server!"
+    return render_template('homepage.html', output=output)
+
+#@app.route('/index.html')
+#def index():
+ #   return "Hello"
 
 @app.route('/books/')
 def getAll():
