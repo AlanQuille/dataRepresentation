@@ -5,10 +5,9 @@ class StudentDAO:
         self.db=mysql.connector.connect(
             host="localhost",
             user="root",
-            password="callous1.",
+            password="",
             #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
-            database="datarepresentation",
-            auth_plugin='mysql_native_password')
+            database="datarepresentation")
     def create(self,values):
         cursor=self.db.cursor()
         # rewrite this code to make it clearer
