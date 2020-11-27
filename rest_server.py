@@ -1,4 +1,5 @@
 from flask import Flask, url_for , request, redirect, abort, jsonify, render_template
+from zstudentDAO import studentDAO
 
 app =  Flask(__name__, static_url_path='', static_folder='staticpages')
 
@@ -14,10 +15,40 @@ nextId=4
  #   output = "Rest server!"
  #   return render_template('index.html', output=output)
 
+
+def create():
+    global nextId
+    if not request.json:
+        abort(400)
+    
+
+    book = {
+        "id": nextId,
+        "Title": request.json["Title"],
+        "Author": request.json["Author"],
+        "Price": request.json["Price"]
+    }
+    books.append(book)
+    nextId += 1
+    return jsonify(book)
+
 @app.route('/homepage.html')
 def render_static():
     output = "Rest server!"
     return render_template('homepage.html', output=output)
+
+
+# instance of zstudentDAO object
+s = studentDAO
+
+#@app.route('/books', methods=['POST'])
+@app.route('/create.html')
+def render_static_2():
+   # output = str(jsonify(books))
+   # output = books
+    values = ("Alan", 30)
+    output = str(s.findByID(s.create(values)))
+    return render_template('create.html', output=output)
 
 #@app.route('/index.html')
 #def index():
@@ -37,22 +68,22 @@ def findByID(id):
 
 # create
 # curl -X POST -H "content-type:application/json" -d "{\"Title\":\"test\", \"Author\":\"soome guy\", "\"Price\":123"}" http://127.0.0.1:5000/books
-@app.route('/books', methods=['POST'])
-def create():
-    global nextId
-    if not request.json:
-        abort(400)
+#@app.route('/books', methods=['POST'])
+#def create():
+#    global nextId
+#    if not request.json:
+#        abort(400)
     
 
-    book = {
-        "id": nextId,
-        "Title": request.json["Title"],
-        "Author": request.json["Author"],
-        "Price": request.json["Price"]
-    }
-    books.append(book)
-    nextId += 1
-    return jsonify(book)
+#    book = {
+#        "id": nextId,
+#        "Title": request.json["Title"],
+#        "Author": request.json["Author"],
+#        "Price": request.json["Price"]
+#    }
+#    books.append(book)
+#    nextId += 1
+#    return jsonify(book)
 
 # update
 #  curl -X PUT -H "content-type:application/json" -d "{\"Title\":\"new Title\", \"Author\":\"soome guy\", "\"Price\":999"}" http://127.0.0.1:5000/books/2

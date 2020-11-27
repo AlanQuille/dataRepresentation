@@ -5,13 +5,18 @@ class StudentDAO:
         self.db=mysql.connector.connect(
             host="localhost",
             user="root",
-            password="",
+            password="callous1.",
             #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
-            database="datarepresentation")
+            database="datarepresentation",
+            auth_plugin='mysql_native_password')
     def create(self,values):
-        cursor=self.db.cursor()
-        sql="insert into student (name,age) values(%s,%s)"
+        cursor=self.db.cursor(buffered=True)
+        # rewrite this code to make it clearer
+        # make values into readable form
+        sql="insert into student (Name,Age) values(%s,%s)"
         cursor.execute(sql,values)
+        #sql = "select * from student"
+        #cursor.execute(sql)
         self.db.commit()
         return cursor.lastrowid
     def getAll(self):
