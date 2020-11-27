@@ -10,7 +10,7 @@ class StudentDAO:
             database="datarepresentation",
             auth_plugin='mysql_native_password')
     def create(self,values):
-        cursor=self.db.cursor(buffered=True)
+        cursor=self.db.cursor()
         # rewrite this code to make it clearer
         # make values into readable form
         sql="insert into student (Name,Age) values(%s,%s)"
