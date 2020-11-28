@@ -4,11 +4,11 @@
 
 <head>
 	<title>Michael Alan Murphy Quille's homepage</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
-<script type="text/javascript">
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
 /* These functions change colour of the buttons when the mouse cursor
 	hovers over them. It works by changing the image of the button with 
 	an orange version of the image */
@@ -176,20 +176,20 @@ body {
 
 <!--- The body of this webpage contains a description of the website and the various pages in it !--->
 <body>
-	 <h1>This webpage allows one to perform create operations on the student table</h1>
-	 <p id="test1">This should change if success</p>
-
-	 {{ output }}
+	 <h1>Update entries in SQL tables</h1>
 
 
 <h1> Login validation </h1>
 
-<!--- This form allows the email username and password to be input by user. The input boxes are placed in divs for easy placement on page !--->
-<form id="create" onsubmit="create()">
-	Name: <div class="inputbox"><input type = "text" id="name" value = ""></div><br><br>
-	Age: <div class="inputbox"><input type= "number" id="age" value = ""></div><br><br>
-	<input type="submit" value="Create"><hr>
-</form>
+
+Name: <div class="inputbox"><input type = "text" id="name" value = ""></div><br><br>
+Age: <div class="inputbox"><input type= "number" id="age" value = ""></div><br><br>
+ID : <div class="inputbox"><input type= "number" id="id" value = ""></div><br><br>
+<button onclick="update()">Create</button>
+
+<br>
+
+<p id="test1">This will change to your entry once you click Create</p>
 
 
 </body>
@@ -197,27 +197,47 @@ body {
 
 <script>
 
-function create() {
-	//document.getElementById("test1").innerText="SUCCESS";
-
-	var car={"reg":"12D1234","make":"Fiat","model":"Punto","price":3000};
-	$.ajax({
-                "url":"cars",
+function update() {
+			var name_var = document.getElementById("name").value;
+			var age_var = document.getElementById("age").value;
+			var id_var = document.getElementById("id").value;
+		//	var car = {"name":name_var,"age": age_var};
+            var car={"name":name_var,"age":parseInt(age_var), "id": parseInt(id_var)};
+            console.log(JSON.stringify(car));
+            $.ajax({
+                "url":"update",
                 "method":"POST",
-                "data": JSON.stringify(car),
+                "data":JSON.stringify(car),
+                "dataType":"JSON",
+                contentType:"application/json;charset=utf-8",
                 "success":function(result){
                     console.log(result);
-                    document.getElementById("test1").innerText="SUCCESS";
+                    document.getElementById("test1").innerText=JSON.stringify(result);
                     },
                     "error":function(xhr,status,error){
                         console.log("error:"+status+"msg:"+error);}
-                 });
-
-}
-
+                        });
+                    }
 
 
+function getall(){
+            $.ajax({
+                url: "cars",
+                method: "GET",
+                data: "",
+                dataType:"JSON",
+                success: function(result){
+                    //console.log(result);
+                    for (car of result.cars){
+                        console.log(car)
+                    }
+                },
+                error: function(xhr, status, error){
+                    console.log("error " + status + " msg:"+error);
+                }
 
+            })
+        }
 
 
 
