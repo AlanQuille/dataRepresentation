@@ -145,14 +145,14 @@ body {
 	border-radius: 5px; 
 	background-color: #f2f2f2; 
 	padding: 20px; 
-	width: 100%;
+	width: 50%;
 }
 
 #form2 {
 	border-radius: 5px; 
 	background-color: #f2f2f2; 
 	padding: 20px; 
-	width: 100%;
+	width: 50%;
 }
 
 #id {
@@ -195,6 +195,66 @@ body {
 #button_read2:hover {
   background-color: #45a049;
 }
+
+#table1 {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+  position: absolute;
+  top: 10vh;
+  left: 50vw;
+}
+
+#table1 td, #table1 th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#table1 tr:nth-child(even){background-color: #f2f2f2;}
+
+#table1 tr:hover {background-color: #ddd;}
+
+#table1 th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+#table2 {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  border-color: #4CAF50;
+  width: 50%;
+  position: absolute;
+  top: 41.5vh; 
+  left: 50vw;
+}
+
+#table2 td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#table2 tr:nth-child(even){background-color: #f2f2f2;}
+
+#table2 tr:hover {background-color: #ddd;}
+
+#table2 th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+#header2 {
+  position: absolute;
+  top: 0vh; 
+  left: 50vw;
+}
+
 </style>
 
 <!--- div which contains header and header buttons, images !--->
@@ -235,15 +295,19 @@ body {
 
 <div id="form1" class="inpubox">ID: <input type="number" id="id" value = "" onkeypress="return event.charCode >= 47" min="1" ><br>
 <button id="button_read1" onclick="read1()">Read by ID</button></div>
-<p id="test1">This will change to your entry once you click Read by ID</p>
+<p id="test0">Your entry will appear to the right of this form when you click Read By Id</p>
+<p id="test1"></p>
 
 <br>
 
 <div id="form2"> 
-<p>Alternatively, you can output all entries from the table by clicking the button below.</p> 
+<p>Alternatively, you can output all entries from the table by clicking the button below. It will appear
+	to the right of this form once you click
+</p> 
 <button id="button_read2" onclick="read2()">Show complete table</button>
 </div>
-<p id="test2">This will change to show the complete table</p>
+<h1 id="header2">Table output</h1>
+<p id="test2"></p>
 
 </body>
 
@@ -266,8 +330,10 @@ function read1() {
 					{
 						alert(result)
 					}
+					else
+					{
 					txt = ""
-					txt = "<table border=1>";
+					txt = "<table border=1 id=\"table1\">";
 					txt += "<th>ID</th><th>Name</th><th>Age</th>"
 
 			//		for (i=0; i<result.length; i++){
@@ -289,6 +355,7 @@ function read1() {
 				//	}
 					txt += "</table>";
 					document.getElementById("test1").innerHTML=txt;
+					}
                     },
                     "error":function(xhr,status,error){
                         console.log("error:"+status+"msg:"+error);}
@@ -304,7 +371,7 @@ function read2(){
                 dataType:"JSON",
                 success: function(result){
 					txt = ""
-					txt = "<table border=1>";
+					txt = "<table border=1 id=\"table2\">";
 					txt += "<th>ID</th><th>Name</th><th>Age</th>"
 
 					for (i=0; i<result.length; i++){

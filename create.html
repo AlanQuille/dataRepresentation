@@ -185,6 +185,34 @@ body {
   background-color: #45a049;
 }
 
+#table1 {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  border-color: #4CAF50;
+  width: 100%;
+  position: absolute;
+  top: 10vh; 
+  left: 50vw;
+}
+
+#table1 td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#table1 tr:nth-child(even){background-color: #f2f2f2;}
+
+#table1 tr:hover {background-color: #ddd;}
+
+#table1 th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+
 
 </style>
 
@@ -234,7 +262,8 @@ Age : <div id=#nameage class="inpubox"><input type="number" id="age" value = "" 
 
 <br>
 
-<p id="test1">This will change to your entry once you click Create.</p>
+<p id="test0">Your entry will appear on the top right once you click Create.</p>
+<p id="test1"></p>
 
 
 </body>
@@ -257,7 +286,7 @@ function create() {
                 "success":function(result){
                     console.log(result);
 					txt = ""
-					txt = "<table border=1>";
+					txt = "<table border=1 id=\"table1\">";
 					txt += "<th>Name</th><th>Age</th>"
 
 			//		for (i=0; i<result.length; i++){
@@ -276,6 +305,7 @@ function create() {
 				//	}
 					txt += "</table>";
 					document.getElementById("test1").innerHTML=txt;
+					document.getElementById("test0").innerText="Success!";
 					
                   //  document.getElementById("test1").innerText=JSON.stringify(result);
                     },
