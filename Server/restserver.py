@@ -6,22 +6,6 @@ app = Flask(__name__,
             static_url_path='',
             static_folder='../')
 
-
-#@app.route('/cars', methods=['GET'])
-#def get_cars():
- #   return jsonify( {'cars':cars})
-# curl -i http://localhost:5000/cars
-
-#@app.route('/cars/<string:reg>', methods =['GET'])
-#def get_car(reg):
- #   foundCars = list(filter(lambda t : t['reg'] == reg , cars))
-#    if len(foundCars) == 0:
-#        return jsonify( { 'car' : '' }),204
-#    return jsonify( { 'car' : foundCars[0] })
-#curl -i http://localhost:5000/cars/test
-
-
-# instance of zstudentDAO object
 s = studentDAO
 
 @app.route('/create', methods=['POST'])
