@@ -1,7 +1,0 @@
-Create an XML file that stores data for a library. DONE
-
-Two catalogues (technical books and for cookery books)  DONE
-
-Each catalogue can contain a number of a books (say 2 for the purpose of this exercise) DONE
-
-Books will have an ISBN, title and author. (Sounds good) DONE
