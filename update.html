@@ -195,6 +195,13 @@ body {
 #updatebutton:hover {
   background-color: #45a049;
 }
+
+#header2 {
+  position: absolute;
+  top: 0vh; 
+  left: 50vw;
+  white-space: nowrap;
+}
 </style>
 
 <!--- div which contains header and header buttons, images !--->
@@ -232,6 +239,7 @@ body {
 <!--- The body of this webpage contains a description of the website and the various pages in it !--->
 <body>
 	 <h1>Update entries in SQL tables</h1>
+	 
 
 <div id=form1>
 Name: <input type = "text" id="name" value = ""><br><br>
@@ -239,6 +247,7 @@ Age : <input type="number" id="age" value = "" onkeypress="return event.charCode
 ID : <input type="number" id="id" value = "" onkeypress="return event.charCode >= 47" min="1" ><br>
 <button id="updatebutton" onclick="update()">Update</button>
 </div>
+<h1 id="header2">Table output</h1>
 
 <br>
 
