@@ -28,8 +28,8 @@ class StudentDAO:
         cursor=self.db.cursor()
         sql="select * from student where id=%s"
         values=(id,)
-        cursor.execute(sql,values)
-        result=cursor.fetchone()
+        cursor.execute(sql, values)
+        result = cursor.fetchone()
         return result
     def update(self,values):
         cursor=self.db.cursor()

@@ -155,19 +155,19 @@ body {
 
 
 <!--- Homepage button logo and image tag. Links to homepage.html!--->
-<a href="homepage.html"><img id="button0" onmouseover="changePic0()" onmouseout="changePic0_1()" class="headbutton" src="images/buttonImages/button_homepage.png" width="12.0%" title="Delete" alt="Delete"></img></a>
+<a href="homepage.html"><img id="button0" onmouseover="changePic0()" onmouseout="changePic0_1()" class="headbutton" src="images/buttonImages/button_homepage.png" width="12.0%" title="Homepage" alt="Homepage"></img></a>
 
-<!--- Homepage button logo and image tag. Links to homepage.html!--->
-<a href="create.html"><img id="button1" onmouseover="changePic1()" onmouseout="changePic2()" class="headbutton" src="images/buttonImages/button_create.png" width="12.0%" title="Delete" alt="Delete"></img></a>
+<!--- Create  button logo and image tag. Links to create.html!--->
+<a href="create.html"><img id="button1" onmouseover="changePic1()" onmouseout="changePic2()" class="headbutton" src="images/buttonImages/button_create.png" width="12.0%" title="Create" alt="Create"></img></a>
 
-<!--- Login button logo and image tag. Links to login.html !--->
-<a href="login.html"><img id="button2" onmouseover="changePic3()" onmouseout="changePic4()" class="headbutton" src="images/buttonImages/button_read.png" width="12.0%" title="Read" alt="Read"></img></a>
+<!--- Read button logo and image tag. Links to read.html !--->
+<a href="read.html"><img id="button2" onmouseover="changePic3()" onmouseout="changePic4()" class="headbutton" src="images/buttonImages/button_read.png" width="12.0%" title="Read" alt="Read"></img></a>
 
-<!--- DOM button logo and image tag. Links to DOM.html !--->
-<a href="dom.html"><img id="button3" onmouseover="changePic5()" onmouseout="changePic6()" class="headbutton" src="images/buttonImages/button_update.png" width="12.0%" title="Update" alt="Update"></img></a>
+<!--- Update button logo and image tag. Links to update.html !--->
+<a href="update.html"><img id="button3" onmouseover="changePic5()" onmouseout="changePic6()" class="headbutton" src="images/buttonImages/button_update.png" width="12.0%" title="Update" alt="Update"></img></a>
 
-<!--- Barcharts button logo and image tag. Links to barcharts.html. !--->
-<a href="barcharts.html"><img id="button4" onmouseover="changePic7()" onmouseout="changePic8()" class="headbutton" src="images/buttonImages/button_delete.png" width= "12.0%" title="Delete" alt="Delete"></img></a>
+<!--- Delete button logo and image tag. Links to delete.html. !--->
+<a href="delete.html"><img id="button4" onmouseover="changePic7()" onmouseout="changePic8()" class="headbutton" src="images/buttonImages/button_delete.png" width= "12.0%" title="Delete" alt="Delete"></img></a>
 
 <!--- QuilleCo logo image tag !--->
 <img class="logo" id="logo2" src="images/headerImages/QuilleCo.png" title="QuilleCo" alt="QuilleCo"></img>
@@ -181,36 +181,69 @@ body {
 
 <h1> Login validation </h1>
 
-ID : <div class="inputbox"><input type= "number" id="id" value = ""></div><br>
-<button onclick="read1()">Read by id</button>
-<p id="test1">This will change to your entry once you click Create</p>
+
+Name: <div class="inputbox"><input type = "text" id="name" value = ""></div><br><br>
+Age : <div class="inpubox"><input type="number" id="age" value = "" onkeypress="return event.charCode >= 47" min="1" ></div><br><br>
+ID : <div class="inpubox"><input type="number" id="id" value = "" onkeypress="return event.charCode >= 47" min="1" ></div><br>
+<button onclick="update()">Create</button>
 
 <br>
 
+<p id="test1">This will change to your entry once you click Create</p>
 
-<p>Alternatively, you can output all entries from the table by clicking the button below.</p> 
-<p id="test2">This will change to show the complete table</p>
-<button onclick="read2()">Show complete table</button>
 
 </body>
 
 
 <script>
 
-function read1() {
+
+
+
+
+function update() {
+			var name_var = document.getElementById("name").value;
+			var age_var = document.getElementById("age").value;
 			var id_var = document.getElementById("id").value;
 		//	var car = {"name":name_var,"age": age_var};
-            var car={"id": parseInt(id_var)};
+            var car={"name":name_var,"age":parseInt(age_var), "id": parseInt(id_var)};
             console.log(JSON.stringify(car));
             $.ajax({
-                "url":"read1",
+                "url":"update",
                 "method":"POST",
                 "data":JSON.stringify(car),
                 "dataType":"JSON",
                 contentType:"application/json;charset=utf-8",
                 "success":function(result){
-                    console.log(result);
-                    document.getElementById("test1").innerText=JSON.stringify(result);
+					if(result == "Error! ID not present.")
+					{
+						alert(result)
+					}
+					txt = ""
+					txt = "<table border=1>";
+					txt += "<th>ID</th><th>Name</th><th>Age</th>"
+
+			//		for (i=0; i<result.length; i++){
+						txt += "<tr>";
+
+						for (j=0; j<3; j++){
+							if(j==0){
+								key = "id"
+							}
+							if(j==1){
+								key = "name"
+							}
+							if(j==2){
+								key = "age"
+							}
+							txt += "<td>" + JSON.stringify(result[key]) + "</td>";
+						} 
+						txt += "</tr>";
+				//	}
+					txt += "</table>";
+					document.getElementById("test1").innerHTML=txt;
+                    //console.log(result);
+                    //document.getElementById("test1").innerText=JSON.stringify(result);
                     },
                     "error":function(xhr,status,error){
                         console.log("error:"+status+"msg:"+error);}
@@ -218,14 +251,17 @@ function read1() {
                     }
 
 
-function read2(){
+function getall(){
             $.ajax({
-                url: "read2",
+                url: "cars",
                 method: "GET",
                 data: "",
                 dataType:"JSON",
                 success: function(result){
-                    document.getElementById("test2").innerText=JSON.stringify(result);
+                    //console.log(result);
+                    for (car of result.cars){
+                        console.log(car)
+                    }
                 },
                 error: function(xhr, status, error){
                     console.log("error " + status + " msg:"+error);

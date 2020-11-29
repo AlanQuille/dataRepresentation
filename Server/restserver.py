@@ -3,7 +3,7 @@ from flask import Flask, jsonify,  request, abort, make_response
 from zstudentDAO import studentDAO
 
 app = Flask(__name__,
-            static_url_path='', 
+            static_url_path='',
             static_folder='../')
 
 
@@ -50,8 +50,12 @@ def read1():
         "id":  request.json['id'],
     }
     values = student['id']
-    student["name"] = s.findByID(values)[1]
-    student["age"] = s.findByID(values)[2]
+    if(s.findByID(values)==None):
+        student = "Error! ID not present."
+    else:
+        student["name"] = s.findByID(values)[1]
+        student["age"] = s.findByID(values)[2]
+
     return jsonify(student),201
     #return jsonify(values),201
 
@@ -73,9 +77,13 @@ def update():
         "age": request.json['age'],
         "id" : request.json['id']
     }
+    test_values = student["id"]
     values = (student["name"], student["age"], student["id"])
-    s.update(values)
-    return jsonify( {'student':student }),201
+    if(s.findByID(test_values)==None):
+        student = "Error! ID not present."
+    else:
+        s.update(values)
+    return jsonify(student),201
     #return jsonify(values),201
 
 @app.route('/delete', methods=['POST'])
@@ -88,8 +96,11 @@ def delete():
         "id" : request.json['id']
     }
     values = student["id"]
-    s.delete(values)
-    return jsonify( {'student':student }),201
+    if(s.findByID(values)==None):
+        student = "Error! ID not present."
+    else:
+        s.delete(values)
+    return jsonify(student),201
     #return jsonify(values),201
 
 
