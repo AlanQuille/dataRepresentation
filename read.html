@@ -140,6 +140,61 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	top: 15vh;
 }
+
+#form1 {
+	border-radius: 5px; 
+	background-color: #f2f2f2; 
+	padding: 20px; 
+	width: 100%;
+}
+
+#form2 {
+	border-radius: 5px; 
+	background-color: #f2f2f2; 
+	padding: 20px; 
+	width: 100%;
+}
+
+#id {
+	width: 100%;
+  	padding: 12px 20px;
+  	margin: 8px 0;
+  	display: inline-block;
+  	border: 1px solid #ccc;
+  	border-radius: 4px;
+  	box-sizing: border-box;
+
+}
+
+#button_read1 {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#button_read1:hover {
+  background-color: #45a049;
+}
+
+#button_read2 {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#button_read2:hover {
+  background-color: #45a049;
+}
 </style>
 
 <!--- div which contains header and header buttons, images !--->
@@ -178,19 +233,17 @@ body {
 <body>
 	 <h1>Read entries in SQL tables</h1>
 
-
-<h1> Login validation </h1>
-
-ID : <div class="inpubox"><input type="number" id="id" value = "" onkeypress="return event.charCode >= 47" min="1" ></div><br>
-<button onclick="read1()">Read by id</button>
-<p id="test1">This will change to your entry once you click Create</p>
+<div id="form1" class="inpubox">ID: <input type="number" id="id" value = "" onkeypress="return event.charCode >= 47" min="1" ><br>
+<button id="button_read1" onclick="read1()">Read by ID</button></div>
+<p id="test1">This will change to your entry once you click Read by ID</p>
 
 <br>
 
-
+<div id="form2"> 
 <p>Alternatively, you can output all entries from the table by clicking the button below.</p> 
+<button id="button_read2" onclick="read2()">Show complete table</button>
+</div>
 <p id="test2">This will change to show the complete table</p>
-<button onclick="read2()">Show complete table</button>
 
 </body>
 

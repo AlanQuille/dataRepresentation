@@ -140,6 +140,40 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	top: 15vh;
 }
+
+#id {
+	width: 100%;
+  	padding: 12px 20px;
+  	margin: 8px 0;
+  	display: inline-block;
+  	border: 1px solid #ccc;
+  	border-radius: 4px;
+  	box-sizing: border-box;
+
+}
+
+#form1 {
+	border-radius: 5px; 
+	background-color: #f2f2f2; 
+	padding: 20px; 
+	width: 100%;
+}
+
+#button_delete {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#button_delete {
+  background-color: #45a049;
+}
+
 </style>
 
 <!--- div which contains header and header buttons, images !--->
@@ -178,15 +212,14 @@ body {
 <body>
 	 <h1>Delete entries in SQL tables</h1>
 
-
-<h1> Login validation </h1>
-
-ID : <div class="inputbox"><input type= "number" id="id" value = ""></div><br><br>
-<button onclick="del()">Create</button>
+<div id="form1">
+ID : <input id="id" type= "number" id="id" value = ""><br><br>
+<button id="button_delete" onclick="del()">Delete</button>
+</div>
 
 <br>
 
-<p id="test1">This will change to your entry once you click Create</p>
+<p id="test1">This will change to your entry once you click Delete</p>
 
 
 </body>
@@ -210,31 +243,11 @@ function del() {
 					{
 						alert(result)
 					}
-					txt = ""
-					txt = "<table border=1>";
-					txt += "<th>ID</th><th>Name</th><th>Age</th>"
-
-			//		for (i=0; i<result.length; i++){
-						txt += "<tr>";
-
-						for (j=0; j<3; j++){
-							if(j==0){
-								key = "id"
-							}
-							if(j==1){
-								key = "name"
-							}
-							if(j==2){
-								key = "age"
-							}
-							txt += "<td>" + JSON.stringify(result[key]) + "</td>";
-						} 
-						txt += "</tr>";
-				//	}
-					txt += "</table>";
-					document.getElementById("test1").innerHTML=txt;
-              //      console.log(result);
-               //     document.getElementById("test1").innerText=JSON.stringify(result);
+					else
+					{
+						document.getElementById("test1").innerText = "Success! Row successfully deleted."
+					}
+				
                     },
                     "error":function(xhr,status,error){
                         console.log("error:"+status+"msg:"+error);}
