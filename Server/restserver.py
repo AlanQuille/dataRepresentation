@@ -59,10 +59,10 @@ def login():
 
         if(username in username_list and password in password_list):
             session['user_id'] = user.id
-            return_string = "Success!"
+            return_string = "1"
 
         else:
-            return_string = "Failure!"
+            return_string = "0"
     
     print(return_string)
     return jsonify(return_string)
