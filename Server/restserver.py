@@ -1,6 +1,8 @@
 #!flask/bin/python
 from flask import Flask, jsonify,  request, abort, make_response, session, abort, redirect, url_for, g
 from zstudentDAO import studentDAO
+from googleAPI import googleAPI
+import json
 
 app = Flask(__name__,
             static_url_path='',
@@ -8,11 +10,26 @@ app = Flask(__name__,
 
 app.secret_key = 'somesecretkeythatonlyishouldknow'
 
+# for SQL connection
 s = studentDAO
 
+# for Gmail API
+# this function dumps today's emails to a JSON file
+# called 
 
+def gmailAPI():
+    googleAPI()
+    with open('subjects_emails.json') as json_file:
+        data = json_file.read()
+        final = json.loads(data)
+        #print(final)
+    return final
 
-example = 0
+#gmailAPI()
+
+# read json file
+#json.load(file object)
+
 
 
 class User:
@@ -83,10 +100,49 @@ def logout():
     return "Goodbye!"
 
 
-# create /verify which uses GET and ajax
-# pass logged_in_or_not of particular user
-# if logged_in_or_not=0, redirect using javascript
-# to login 
+@app.route('/gmail')
+def gmail():
+    list_of_subjects = gmailAPI()
+    successful_entries = 0
+
+    for i in list_of_subjects:
+        cs_str= i[2]
+        list_split = cs_str.split (",")
+        entry1 = str(list_split[0])
+        try:
+            entry2 = int(list_split[1])
+        # do nothing if error
+        except ValueError as verr:
+            continue
+        # detto
+        except Exception as ex:
+            continue
+   # if error free
+        values = (entry1, entry2)
+        s.create(values)
+        successful_entries += 1
+    
+    return jsonify("Number of successful entries is: {}".format(successful_entries))
+
+  #  s.create(values)
+# add in all tables from Gmail a/c
+# dataRepresentation2020.gmail.com
+# 
+#@app.route('/gmail', methods=['POST'])
+#def gmail():
+   # list_of_subjects = gmailAPI()
+
+   # for sub in list_of_subjects:
+    #    list_split = sub[2].split (",")
+    #    if(len(list_split) != 2):
+    #        return jsonify("Error! Number of entries")
+   #     else:
+    #        values = (list_split[0], str(list_split[1]))
+   #         s.create(values)
+    #        return jsonify(list_split)
+    
+
+    
 
 @app.route('/create', methods=['POST'])
 def create():

@@ -14,7 +14,7 @@
 	an orange version of the image */
 
 
-	function changePic0(){
+function changePic0(){
 document.getElementById("button0").src = "images/buttonImages/button_home_mouseover.png"
 }
 
@@ -135,27 +135,22 @@ document.getElementById("button4").src = "images/buttonImages/button_delete.png"
 
 /* CSS Styling for body. Placed 15vh below div header and the font is Arial. */
 body { 
-
 	position: absolute;
 	font-family: Arial, Helvetica, sans-serif;
 	top: 15vh;
 }
 
+
 #form1 {
+	position: absolute;
 	border-radius: 5px; 
 	background-color: #f2f2f2; 
 	padding: 20px; 
-	width: 50%;
+	width: 25%;
+	left: 30vw;
 }
 
-#form2 {
-	border-radius: 5px; 
-	background-color: #f2f2f2; 
-	padding: 20px; 
-	width: 50%;
-}
-
-#id {
+#name {
 	width: 100%;
   	padding: 12px 20px;
   	margin: 8px 0;
@@ -166,7 +161,18 @@ body {
 
 }
 
-#button_read1 {
+#age {
+	width: 100%;
+  	padding: 12px 20px;
+  	margin: 8px 0;
+  	display: inline-block;
+  	border: 1px solid #ccc;
+  	border-radius: 4px;
+  	box-sizing: border-box;
+
+}
+
+#createbutton {
   width: 100%;
   background-color: #4CAF50;
   color: white;
@@ -177,35 +183,21 @@ body {
   cursor: pointer;
 }
 
-#button_read1:hover {
-  background-color: #45a049;
-}
-
-#button_read2 {
-  width: 100%;
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#button_read2:hover {
+#createbutton:hover {
   background-color: #45a049;
 }
 
 #table1 {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 50%;
+  border-color: #4CAF50;
+  width: 100%;
   position: absolute;
-  top: 10vh;
+  top: 10vh; 
   left: 50vw;
 }
 
-#table1 td, #table1 th {
+#table1 td, #customers th {
   border: 1px solid #ddd;
   padding: 8px;
 }
@@ -222,40 +214,19 @@ body {
   color: white;
 }
 
-#table2 {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  border-color: #4CAF50;
-  width: 50%;
-  position: absolute;
-  top: 41.5vh; 
-  left: 50vw;
-}
-
-#table2 td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#table2 tr:nth-child(even){background-color: #f2f2f2;}
-
-#table2 tr:hover {background-color: #ddd;}
-
-#table2 th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #4CAF50;
-  color: white;
-}
-
 #header2 {
   position: absolute;
   top: 0vh; 
   left: 50vw;
   white-space: nowrap;
-  z-index: -1;
 }
+
+#test0 {
+	position: absolute;
+	top: 30vh;
+	left:30vw;
+}
+
 
 </style>
 
@@ -293,123 +264,42 @@ body {
 
 <!--- The body of this webpage contains a description of the website and the various pages in it !--->
 <body>
-	 <h1>Read entries in SQL tables</h1>
+	 <h1>Create entries in SQL tables</h1>
 
-<div id="form1" class="inpubox">ID: <input type="number" id="id" value = "" onkeypress="return event.charCode >= 47" min="1" ><br>
-<button id="button_read1" onclick="read1()">Read by ID</button></div>
-<p id="test0">Your entry will appear to the right of this form when you click Read By Id</p>
-<p id="test1"></p>
 
-<br>
 
-<div id="form2"> 
-<p>Alternatively, you can output all entries from the table by clicking the button below. It will appear
-	to the right of this form once you click
-</p> 
-<button id="button_read2" onclick="read2()">Show complete table</button>
+<p id> When you click the button below, subject lines from dataRepresentation2020@gmail.com will load into the SQL table student. 
+	Only the subjects for today's emails are loaded.
+</p>
+
+
+<div id="form1" class="inpubox"><br>
+	<button id="createbutton" onclick="email_success()">Load in email subjects to student table</button>
+	
 </div>
-<h1 id="header2">Table output</h1>
-<p id="test2"></p>
+<br>
+<!---<p id="test0">This shows how many successful entries were made. !--->
+	<p id="test0">This shows how many successful entries were made.
+
+
 
 </body>
 
 
 <script>
 
-function read1() {
-			var id_var = document.getElementById("id").value;
-		//	var car = {"name":name_var,"age": age_var};
-            var car={"id": parseInt(id_var)};
-            console.log(JSON.stringify(car));
+function email_success(){
             $.ajax({
-                "url":"read1",
-                "method":"POST",
-                "data":JSON.stringify(car),
-                "dataType":"JSON",
-                contentType:"application/json;charset=utf-8",
-                "success":function(result){
-					if(result == "Error! ID not present.")
-					{
-						alert(result)
-					}
-					else
-					{
-					txt = ""
-					txt = "<table border=1 id=\"table1\">";
-					txt += "<th>ID</th><th>Name</th><th>Age</th>"
-
-			//		for (i=0; i<result.length; i++){
-						txt += "<tr>";
-
-						for (j=0; j<3; j++){
-							if(j==0){
-								key = "id"
-							}
-							if(j==1){
-								key = "name"
-							}
-							if(j==2){
-								key = "age"
-							}
-							txt += "<td>" + JSON.stringify(result[key]) + "</td>";
-						} 
-						txt += "</tr>";
-				//	}
-					txt += "</table>";
-					document.getElementById("test1").innerHTML=txt;
-					}
-                    },
-                    "error":function(xhr,status,error){
-                        console.log("error:"+status+"msg:"+error);}
-                        });
-                    }
-
-
-function read2(){
-            $.ajax({
-                url: "read2",
+                url: "gmail",
                 method: "GET",
                 data: "",
                 dataType:"JSON",
                 success: function(result){
-					txt = ""
-					txt = "<table border=1 id=\"table2\">";
-					txt += "<th>ID</th><th>Name</th><th>Age</th>"
-
-					for (i=0; i<result.length; i++){
-						txt += "<tr>";
-
-						for (j=0; j<3; j++){
-							txt += "<td>" + JSON.stringify(result[i][j]) + "</td>";
-						} 
-						txt += "</tr>";
-					}
-					txt += "</table>";
-					document.getElementById("test2").innerHTML=txt;
+				
+					document.getElementById("test0").innerText=result + ", congratulations!";
 					//document.getElementById("test2").innerText=JSON.stringify(result[0][0]);
 					//document.getElementById("test2").innerText=JSON.stringify(result[0][0]);
 
-                },
-                error: function(xhr, status, error){
-                    console.log("error " + status + " msg:"+error);
-                }
-
-            })
-        }
-
-
-window.onload = function logged_in(){
-            $.ajax({
-                url: "verify",
-                method: "GET",
-                dataType:"JSON",
-                success: function(result){
-					
-					if(result=='0')
-					{
-					location.replace("login.html")
-					}
-					
                 },
                 error: function(xhr, status, error){
                     console.log("error " + status + " msg:"+error);

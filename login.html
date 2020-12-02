@@ -85,7 +85,20 @@ function login() {
                 "dataType":"JSON",
                 contentType:"application/json;charset=utf-8",
                 "success":function(result){
-                    location.replace("homepage.html")
+                    console.log(JSON.stringify(result));
+                    var sorf = parseInt(result);
+                    console.log(sorf)
+                    if(sorf == 1)
+                    {
+                      alert("Logged in!");
+                      location.replace("homepage.html");
+                    }
+                    else
+                    {
+                      alert("Username or password incorrect!")
+                      window.location.replace = "login.html"
+                    }
+                    
                 },
                     "error":function(xhr,status,error){
                         console.log("error:"+status+"msg:"+error);}
