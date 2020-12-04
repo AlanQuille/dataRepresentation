@@ -16,9 +16,15 @@ s = studentDAO
 l = lecturerDAO
 
 # determine which table is changed
-# at the moment it is set to 0/student
-# by default
-table_var = 0
+# at the moment it is set to 
+# the value in default_value.txt
+with open("default_value.txt") as d:
+    data  = d.read()
+    if(int(data)==0 or int(data)==1):
+        table_var = int(data)
+    else:
+        table_var = 0
+
 
 # for Gmail API
 # this function dumps today's emails to a JSON file
