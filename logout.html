@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Logout</title>
+
+  </head>
+
+  <style>
+    </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  
+  <body>
+
+
+
+
+  </body>
+
+  <script>
+
+    
+window.onload = function logout(){
+            $.ajax({
+                url: "logout",
+                method: "GET",
+                dataType:"JSON",
+                success: function(result){
+                  alert(result);
+
+					        location.replace("login.html")
+					
+					
+                },
+                error: function(xhr, status, error){
+                    console.log("error " + status + " msg:"+error);
+                }
+
+            });
+        }
+
+
+      
+  </script>
+</html>

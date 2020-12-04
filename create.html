@@ -54,6 +54,31 @@ function changePic8(){
 document.getElementById("button4").src = "images/buttonImages/button_delete.png"
 }
 
+function changePic9(){
+document.getElementById("button5").src = "images/buttonImages/button_gmail_mouseover.png"
+}
+
+function changePic10(){
+document.getElementById("button5").src = "images/buttonImages/button_gmail.png"
+}
+
+function changePic11(){
+document.getElementById("button6").src = "images/buttonImages/button_logout_mouseover.png"
+}
+
+function changePic12(){
+document.getElementById("button6").src = "images/buttonImages/button_logout.png"
+}
+
+function changePic13(){
+document.getElementById("button7").src = "images/buttonImages/button_change_table_mouseover.png"
+}
+
+function changePic14(){
+document.getElementById("button7").src = "images/buttonImages/button_change_table.png"
+}
+
+
 
 </script>
 
@@ -76,7 +101,7 @@ document.getElementById("button4").src = "images/buttonImages/button_delete.png"
 #logo1 {
 	position: absolute;
 	width: 10vw;
-	height: 15vh;
+	height: 14vh;
 	left: 88.5vw;
 	top: 0.5vw;
 }
@@ -84,7 +109,7 @@ document.getElementById("button4").src = "images/buttonImages/button_delete.png"
 #logo2 {
 	position: absolute;
 	width: 10vw;
-	height: 15vh;
+	height: 14vh;
     left: 0.5vw;
 	top: 0.5vw;
 }
@@ -93,45 +118,71 @@ document.getElementById("button4").src = "images/buttonImages/button_delete.png"
 /* CSS Styling for buttons in header. All distances done in viewport height and width so they do not change their relative position
 	when scrolling or if the page is shrunk. The position is set to absolute to ensure this.*/
 
-#button0 {
+	#button0 {
 	position: absolute;
-	width: 13vw;
-	height: 11vh;
-	top: 1.75vw;
-	left: 15vw;
+	width: 8vw;
+	height: 8vh;
+	top: 2.5vw;
+	left: 12vw;
 }
 
 #button1 {
 	position: absolute;
-	width: 12vw;
-	height: 11vh;
-	top: 1.75vw;
-	left: 30vw;
+	width: 8vw;
+	height: 8vh;
+	top: 2.5vw;
+	left: 21vw;
 }
 
 #button2 {
 	position: absolute;
-	width: 12vw;
-	height: 11vh;
-	top: 1.75vw;
-	left: 44vw;
+	width: 8vw;
+	height: 8vh;
+	top: 2.5vw;
+	left: 30vw;
 }
 
 #button3 {
 	position: absolute;
-	width: 12vw;
-	height: 11vh;
-	top: 1.75vw;
-	left: 58vw;
+	width: 8vw;
+	height: 8vh;
+	top: 2.5vw;
+	left: 39vw;
 }
 
 #button4 {
 	position: absolute;
-	width: 12vw;
-	height: 11vh;
-	top: 1.75vw;
-	left: 72vw;
+	width: 8vw;
+	height: 8vh;
+	top: 2.5vw;
+	left: 48vw;
 }
+
+#button5 {
+	position: absolute;
+	width: 8vw;
+	height: 8vh;
+	top: 2.5vw;
+	left: 57vw;
+}
+
+#button6 {
+	position: absolute;
+	width: 8vw;
+	height: 8vh;
+	top: 2.5vw;
+	left: 66vw;
+}
+
+#button7 {
+	position: absolute;
+	width: 11vw;
+	height: 8vh;
+	top: 2.5vw;
+	left: 75vw;
+}
+
+
 
 /* CSS Styling for body. Placed 15vh below div header and the font is Arial. */
 body { 
@@ -248,6 +299,15 @@ body {
 
 <!--- Delete button logo and image tag. Links to delete.html. !--->
 <a href="delete.html"><img id="button4" onmouseover="changePic7()" onmouseout="changePic8()" class="headbutton" src="images/buttonImages/button_delete.png" width= "12.0%" title="Delete" alt="Delete"></img></a>
+
+<!--- Gmail button logo and image tag. Links to delete.html. !--->
+<a href="gmail.html"><img id="button5" onmouseover="changePic9()" onmouseout="changePic10()" class="headbutton" src="images/buttonImages/button_gmail.png" width= "12.0%" title="Gmail" alt="Gmail"></img></a>
+
+<!--- Gmail button logo and image tag. Links to delete.html. !--->
+<a href="logout.html"><img id="button6" onmouseover="changePic11()" onmouseout="changePic12()" class="headbutton" src="images/buttonImages/button_logout.png" width= "12.0%" title="Gmail" alt="Gmail"></img></a>
+
+<!--- Gmail button logo and image tag. Links to delete.html. !--->
+<a href="change_table.html"><img id="button7" onmouseover="changePic13()" onmouseout="changePic14()" class="headbutton" src="images/buttonImages/button_change_table.png" width= "12.0%" title="Gmail" alt="Gmail"></img></a>
 
 <!--- QuilleCo logo image tag !--->
 <img class="logo" id="logo2" src="images/headerImages/QuilleCo.png" title="QuilleCo" alt="QuilleCo"></img>

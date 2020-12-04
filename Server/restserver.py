@@ -1,6 +1,7 @@
 #!flask/bin/python
 from flask import Flask, jsonify,  request, abort, make_response, session, abort, redirect, url_for, g
 from zstudentDAO import studentDAO
+from zstudentDAO import lecturerDAO
 from googleAPI import googleAPI
 import json
 
@@ -12,6 +13,12 @@ app.secret_key = 'somesecretkeythatonlyishouldknow'
 
 # for SQL connection
 s = studentDAO
+l = lecturerDAO
+
+# determine which table is changed
+# at the moment it is set to 0/student
+# by default
+table_var = 0
 
 # for Gmail API
 # this function dumps today's emails to a JSON file
@@ -94,14 +101,16 @@ def verify():
 
 
 # logout
-@app.route('/logout')
+@app.route('/logout', methods=['GET'])
 def logout():
     session.pop('user_id', None)
-    return "Goodbye!"
+    return jsonify("Successfully logged out, goodbye!")
+
 
 
 @app.route('/gmail')
 def gmail():
+    global table_var
     list_of_subjects = gmailAPI()
     successful_entries = 0
 
@@ -119,10 +128,27 @@ def gmail():
             continue
    # if error free
         values = (entry1, entry2)
-        s.create(values)
+        if(table_var==0):
+            s.create(values)
+        else:
+            l.create(values)
         successful_entries += 1
     
     return jsonify("Number of successful entries is: {}".format(successful_entries))
+
+
+# change table from student
+# to lecturer and vice versa
+@app.route('/change_table', methods=['GET'])
+def change_table():
+    global table_var
+    if(table_var==0):
+        table_var = 1
+        return jsonify("Table changed to lecturer table")
+    elif(table_var==1):
+        table_var = 0
+        return jsonify("Table changed to student table")
+
 
   #  s.create(values)
 # add in all tables from Gmail a/c
@@ -143,9 +169,9 @@ def gmail():
     
 
     
-
 @app.route('/create', methods=['POST'])
 def create():
+    global table_var
     #if not session.get('logged_in'):
     if not request.json:
         abort(400)
@@ -156,13 +182,17 @@ def create():
             "age": request.json['age']
             }
     values = (student["name"], student["age"])
-    s.create(values)
+    if(table_var==0):
+        s.create(values)
+    else:
+        l.create(values)
     return jsonify( {'student':student }),201
 
 
 
 @app.route('/read1', methods=['POST'])
 def read1():
+    global table_var
     if not request.json:
         abort(400)
     if not 'id' in request.json:
@@ -171,11 +201,18 @@ def read1():
         "id":  request.json['id'],
     }
     values = student['id']
-    if(s.findByID(values)==None):
-        student = "Error! ID not present."
+    if(table_var == 0):
+        if(s.findByID(values)==None):
+            student = "Error! ID not present."
+        else:
+            student["name"] = s.findByID(values)[1]
+            student["age"] = s.findByID(values)[2]
     else:
-        student["name"] = s.findByID(values)[1]
-        student["age"] = s.findByID(values)[2]
+        if(l.findByID(values)==None):
+            student = "Error! ID not present."
+        else:
+            student["name"] = l.findByID(values)[1]
+            student["age"] = l.findByID(values)[2]
 
     return jsonify(student),201
     #return jsonify(values),201
@@ -183,12 +220,17 @@ def read1():
 
 @app.route('/read2', methods=['GET'])
 def read2():
-    return jsonify(s.getAll()),201
+    global table_var
+    if(table_var == 0):
+        return jsonify(s.getAll()),201
+    else:
+        return jsonify(l.getAll()),201
     #return jsonify(values),201
 
 
 @app.route('/update', methods=['POST'])
 def update():
+    global table_var
     if not request.json:
         abort(400)
     if not 'name' in request.json:
@@ -200,15 +242,23 @@ def update():
     }
     test_values = student["id"]
     values = (student["name"], student["age"], student["id"])
-    if(s.findByID(test_values)==None):
-        student = "Error! ID not present."
+    if(table_var == 0):
+        if(s.findByID(test_values)==None):
+            student = "Error! ID not present."
+        else:
+            s.update(values)
     else:
-        s.update(values)
+        if(l.findByID(test_values)==None):
+            student = "Error! ID not present."
+        else:
+            l.update(values)
+
     return jsonify(student),201
     #return jsonify(values),201
 
 @app.route('/delete', methods=['POST'])
 def delete():
+    global table_var
     if not request.json:
         abort(400)
     if not 'id' in request.json:
@@ -217,10 +267,16 @@ def delete():
         "id" : request.json['id']
     }
     values = student["id"]
-    if(s.findByID(values)==None):
-        student = "Error! ID not present."
+    if(table_var==0):
+        if(s.findByID(values)==None):
+            student = "Error! ID not present."
+        else:
+            s.delete(values)
     else:
-        s.delete(values)
+        if(l.findByID(values)==None):
+            student = "Error! ID not present."
+        else:
+            l.delete(values)
     return jsonify(student),201
     #return jsonify(values),201
 

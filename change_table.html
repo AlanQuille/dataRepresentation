@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Change table</title>
+
+  </head>
+
+  <style>
+    </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  
+  <body>
+
+
+
+
+  </body>
+
+  <script>
+
+    
+window.onload = function change_table(){
+            $.ajax({
+                url: "change_table",
+                method: "GET",
+                dataType:"JSON",
+                success: function(result){
+                  alert(result);
+
+					        location.replace("homepage.html")
+					
+					
+                },
+                error: function(xhr, status, error){
+                    console.log("error " + status + " msg:"+error);
+                }
+
+            });
+        }
+
+
+      
+  </script>
+</html>
