@@ -261,14 +261,14 @@ body {
 <!--- Delete button logo and image tag. Links to delete.html. !--->
 <a href="delete.html"><img id="button4" onmouseover="changePic7()" onmouseout="changePic8()" class="headbutton" src="images/buttonImages/button_delete.png" width= "12.0%" title="Delete" alt="Delete"></img></a>
 
-<!--- Gmail button logo and image tag. Links to delete.html. !--->
+<!--- Gmail button logo and image tag. Links to gmail.html. !--->
 <a href="gmail.html"><img id="button5" onmouseover="changePic9()" onmouseout="changePic10()" class="headbutton" src="images/buttonImages/button_gmail.png" width= "12.0%" title="Gmail" alt="Gmail"></img></a>
 
-<!--- Gmail button logo and image tag. Links to delete.html. !--->
-<a href="logout.html"><img id="button6" onmouseover="changePic11()" onmouseout="changePic12()" class="headbutton" src="images/buttonImages/button_logout.png" width= "12.0%" title="Gmail" alt="Gmail"></img></a>
+<!--- Logout button logo and image tag. Links to logout.html. !--->
+<a href="logout.html"><img id="button6" onmouseover="changePic11()" onmouseout="changePic12()" class="headbutton" src="images/buttonImages/button_logout.png" width= "12.0%" title="Logout" alt="Logout"></img></a>
 
-<!--- Gmail button logo and image tag. Links to delete.html. !--->
-<a href="change_table.html"><img id="button7" onmouseover="changePic13()" onmouseout="changePic14()" class="headbutton" src="images/buttonImages/button_change_table.png" width= "12.0%" title="Gmail" alt="Gmail"></img></a>
+<!--- Change_table button logo and image tag. Links to change_table.html. !--->
+<a href="change_table.html"><img id="button7" onmouseover="changePic13()" onmouseout="changePic14()" class="headbutton" src="images/buttonImages/button_change_table.png" width= "12.0%" title="Change table" alt="Change table"></img></a>
 
 <!--- QuilleCo logo image tag !--->
 <img class="logo" id="logo2" src="images/headerImages/QuilleCo.png" title="QuilleCo" alt="QuilleCo"></img>
@@ -280,6 +280,7 @@ body {
 	 <h1>Delete entries in SQL tables</h1>
 	 <h1 id="header2">Table output</h1>
 
+<!--- Div to  activate javascript function for ajax call-->
 <div id="form1">
 ID : <input id="id" type= "number" id="id" value = ""><br><br>
 <button id="button_delete" onclick="del()">Delete</button>
@@ -287,7 +288,7 @@ ID : <input id="id" type= "number" id="id" value = ""><br><br>
 
 <br>
 
-<p id="test1">This will change to your entry once you click Delete</p>
+<p id="test1">This will indicate whether the Delete op was successful.</p>
 
 
 </body>
@@ -295,19 +296,28 @@ ID : <input id="id" type= "number" id="id" value = ""><br><br>
 
 <script>
 
+// function to delete rows via ajax
+// uses fflasask function delete()
 function del() {
 			var id_var = document.getElementById("id").value;
 		//	var car = {"name":name_var,"age": age_var};
-            var car={"id": parseInt(id_var)};
-            console.log(JSON.stringify(car));
+            var input={"id": parseInt(id_var)};
+            console.log(JSON.stringify(input));
             $.ajax({
                 "url":"delete",
                 "method":"POST",
-                "data":JSON.stringify(car),
+                "data":JSON.stringify(input),
                 "dataType":"JSON",
                 contentType:"application/json;charset=utf-8",
                 "success":function(result){
-					if(result == "Error! ID not present.")
+					test_str = ""
+					
+					if(typeof result=="string")
+					{
+						test_str =  result
+					}
+
+					if(test_str == "Error! ID not present." || test_str.substring(0, 5)=="Error")
 					{
 						alert(result)
 					}
@@ -322,7 +332,9 @@ function del() {
                         });
                     }
 
-
+// function which checks whether user is logged in
+// when page is loaded
+// if not, the user is sent back to login.html
 	window.onload = function logged_in(){
             $.ajax({
                 url: "verify",

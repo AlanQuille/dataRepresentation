@@ -1,17 +1,25 @@
 #!flask/bin/python
+# import flask functions
 from flask import Flask, jsonify,  request, abort, make_response, session, abort, redirect, url_for, g
-from zstudentDAO import studentDAO
-from zstudentDAO import lecturerDAO
+# import mysql classes for connection to database
+from tablesDAO import studentDAO
+from tablesDAO import lecturerDAO
+from tablesDAO import jointable
+# import googleAPI to import gmail 
+# messages
 from googleAPI import googleAPI
+# import json to read json files
 import json
 
+# create flask app
 app = Flask(__name__,
             static_url_path='',
             static_folder='../')
 
-app.secret_key = 'somesecretkeythatonlyishouldknow'
+# secret key for app session
+app.secret_key = 'Gardenhill'
 
-# for SQL connection
+# for SQL connection, lecturer and student tables
 s = studentDAO
 l = lecturerDAO
 
@@ -25,30 +33,22 @@ with open("default_value.txt") as d:
     else:
         table_var = 0
 
-
-# for Gmail API
-# this function dumps today's emails to a JSON file
-# called 
-
+# load in messages from gmail account 
+# "datarepresentation2020@gmail.com"
+# the subjects are exported to json
+# file called subject_emails.json
 def gmailAPI():
     googleAPI()
     with open('subjects_emails.json') as json_file:
         data = json_file.read()
         final = json.loads(data)
-        #print(final)
     return final
 
-#gmailAPI()
 
-# read json file
-#json.load(file object)
-
-
-
+# user class for login
 class User:
     id = 0
     def __init__(self, username, password):
-        #self.id = id
         self.username = username
         self.password = password
         User.id += 1
@@ -57,9 +57,12 @@ class User:
         return f'<User: {self.username}>'
 
 users = []
+# sole login is root and password = ''
 users.append(User(username='root', password=''))
-print(users)
 
+# this function makes sure every function
+# no matter what the app route
+# knows that the user is logged in
 @app.before_request
 def before_request():
     g.user = None
@@ -68,7 +71,7 @@ def before_request():
         user = [x for x in users if x.id == session['user_id']][0]
         g.user = user
 
-# change this using login or not depending
+# this logs the user in at login.html
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     username = ''
@@ -94,9 +97,11 @@ def login():
         else:
             return_string = "0"
     
-    print(return_string)
+    
     return jsonify(return_string)
 
+# this returns whether the user is logged
+# in or not
 @app.route('/verify', methods=['GET'])
 def verify():
     if not g.user:
@@ -106,19 +111,22 @@ def verify():
 
 
 
-# logout
+# logout the user
 @app.route('/logout', methods=['GET'])
 def logout():
     session.pop('user_id', None)
     return jsonify("Successfully logged out, goodbye!")
 
 
-
+# this loads the subjects from email a/c
+# into the sql table in question
 @app.route('/gmail')
 def gmail():
     global table_var
+    return_str  = ""
     list_of_subjects = gmailAPI()
     successful_entries = 0
+    errors = 0
 
     for i in list_of_subjects:
         cs_str= i[2]
@@ -136,11 +144,18 @@ def gmail():
         values = (entry1, entry2)
         if(table_var==0):
             s.create(values)
+            if(return_str[:5]=="Error"):
+                errors += 1
+            else:
+                successful_entries += 1    
         else:
-            l.create(values)
-        successful_entries += 1
+            return_str = l.create(values)
+            if(return_str[:5]=="Error"):
+                errors += 1
+            else:
+                successful_entries +=  1
     
-    return jsonify("Number of successful entries is: {}".format(successful_entries))
+    return jsonify("Number of successful entries is {}, number of errors is {}".format(successful_entries, errors))
 
 
 # change table from student
@@ -156,25 +171,9 @@ def change_table():
         return jsonify("Table changed to student table")
 
 
-  #  s.create(values)
-# add in all tables from Gmail a/c
-# dataRepresentation2020.gmail.com
-# 
-#@app.route('/gmail', methods=['POST'])
-#def gmail():
-   # list_of_subjects = gmailAPI()
 
-   # for sub in list_of_subjects:
-    #    list_split = sub[2].split (",")
-    #    if(len(list_split) != 2):
-    #        return jsonify("Error! Number of entries")
-   #     else:
-    #        values = (list_split[0], str(list_split[1]))
-   #         s.create(values)
-    #        return jsonify(list_split)
-    
-
-    
+# thhis creates new rows in lecturer or
+# student table    
 @app.route('/create', methods=['POST'])
 def create():
     global table_var
@@ -189,13 +188,18 @@ def create():
             }
     values = (student["name"], student["age"])
     if(table_var==0):
-        s.create(values)
+        return_str = s.create(values)
     else:
-        l.create(values)
-    return jsonify( {'student':student }),201
+        return_str = l.create(values)
+
+    if return_str == "Success":
+        return jsonify( {'student':student }),201
+    else:
+        return jsonify(return_str)
 
 
-
+# this returns a single row from
+# either lecturer or student table
 @app.route('/read1', methods=['POST'])
 def read1():
     global table_var
@@ -207,23 +211,36 @@ def read1():
         "id":  request.json['id'],
     }
     values = student['id']
+    test_str = ""
     if(table_var == 0):
+        if(isinstance(s.findByID(values), str)):
+            test_str = s.findByID(values)
         if(s.findByID(values)==None):
             student = "Error! ID not present."
-        else:
+        elif(test_str !="Error"):
             student["name"] = s.findByID(values)[1]
             student["age"] = s.findByID(values)[2]
+        else:
+            student = s.findByID(values)
     else:
+        if(isinstance(l.findByID(values), str)):
+            test_str = l.findByID(values)
         if(l.findByID(values)==None):
             student = "Error! ID not present."
-        else:
+        elif(test_str[:5] !="Error"):
             student["name"] = l.findByID(values)[1]
             student["age"] = l.findByID(values)[2]
+        else:
+            student = l.findByID(values)
+            
+
 
     return jsonify(student),201
     #return jsonify(values),201
 
 
+# returns all rows from either lecturer
+# or student table
 @app.route('/read2', methods=['GET'])
 def read2():
     global table_var
@@ -233,7 +250,17 @@ def read2():
         return jsonify(l.getAll()),201
     #return jsonify(values),201
 
+j = jointable
 
+# inner join student and lecturer table
+@app.route('/inner_join', methods=['GET'])
+def inner_join():
+    return jsonify(j.inner_join())
+    #return jsonify(values),201
+
+
+# update or change row in student 
+# or lecturer table
 @app.route('/update', methods=['POST'])
 def update():
     global table_var
@@ -251,17 +278,24 @@ def update():
     if(table_var == 0):
         if(s.findByID(test_values)==None):
             student = "Error! ID not present."
-        else:
+        elif(s.findByID(values)[:5] != "Error"):
             s.update(values)
+        else:
+            student = s.update(values)
     else:
         if(l.findByID(test_values)==None):
             student = "Error! ID not present."
-        else:
+        elif(l.findByID(values)[:5] != "Error"):
+            #print(l.findByID(values)[:5])
             l.update(values)
+        else:
+            student = l.update(values)
 
     return jsonify(student),201
     #return jsonify(values),201
 
+# delete each row from student
+# or lecturer table
 @app.route('/delete', methods=['POST'])
 def delete():
     global table_var
@@ -276,21 +310,32 @@ def delete():
     if(table_var==0):
         if(s.findByID(values)==None):
             student = "Error! ID not present."
-        else:
+        elif(s.findByID(values)=="Success"):
             s.delete(values)
+        else:
+            student = s.delete(values)
+
     else:
         if(l.findByID(values)==None):
             student = "Error! ID not present."
-        else:
+        elif(l.findByID(values)=="Success"):
             l.delete(values)
+        else:
+            student = l.delete(values)
     return jsonify(student),201
     #return jsonify(values),201
 
+# root page for web server
+# if not logged in will 
+# redirect to login.html
+# otherwise will go to 
+# homepage.html
 @app.route('/')
 def is_user_logged_in():
     if not g.user:
         return redirect("login.html")
     return redirect("homepage.html")
 
+# run the app if this page is run
 if __name__ == '__main__':
     app.run(debug= True)

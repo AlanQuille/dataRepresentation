@@ -357,19 +357,28 @@ function update() {
 			var age_var = document.getElementById("age").value;
 			var id_var = document.getElementById("id").value;
 		//	var car = {"name":name_var,"age": age_var};
-            var car={"name":name_var,"age":parseInt(age_var), "id": parseInt(id_var)};
-            console.log(JSON.stringify(car));
+            var input={"name":name_var,"age":parseInt(age_var), "id": parseInt(id_var)};
+            console.log(JSON.stringify(input));
             $.ajax({
                 "url":"update",
                 "method":"POST",
-                "data":JSON.stringify(car),
+                "data":JSON.stringify(input),
                 "dataType":"JSON",
                 contentType:"application/json;charset=utf-8",
                 "success":function(result){
-					if(result == "Error! ID not present.")
+					console.log(result)
+					test_str = ""
+					if(typeof result == "string")
+					{
+						test_str = result
+					}
+					if(test_str == "Error! ID not present."  || test_str.substring(0, 5)=="Error")
 					{
 						alert(result)
 					}
+					
+					else
+					{
 					txt = ""
 					txt = "<table border=1 id=\"table1\">";
 					txt += "<th>ID</th><th>Name</th><th>Age</th>"
@@ -387,12 +396,13 @@ function update() {
 							if(j==2){
 								key = "age"
 							}
-							txt += "<td>" + JSON.stringify(result[key]) + "</td>";
+							txt += "<td>" + JSON.stringify(input[key]) + "</td>";
 						} 
 						txt += "</tr>";
 				//	}
 					txt += "</table>";
 					document.getElementById("test1").innerHTML=txt;
+					}
                     //console.log(result);
                     //document.getElementById("test1").innerText=JSON.stringify(result);
                     },
