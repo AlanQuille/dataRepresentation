@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>Create student table</title>
+
+  </head>
+
+  <style>
+    </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  
+  <body>
+
+
+
+
+  </body>
+
+  <script>
+
+    // Logs user out using logout() function
+    // in flask, then sends user
+    // to login.html
+window.onload = function create_student(){
+            $.ajax({
+                url: "create_table_student",
+                method: "GET",
+                dataType:"JSON",
+                success: function(result){
+                  alert(result);
+
+					        location.replace("homepage.html")
+					
+					
+                },
+                error: function(xhr, status, error){
+                    console.log("error " + status + " msg:"+error);
+                }
+
+            });
+        }
+
+
+      
+  </script>
+</html>

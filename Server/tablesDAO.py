@@ -130,6 +130,55 @@ class LecturerDAO:
 lecturerDAO=LecturerDAO()
 
 
+class Create_and_Delete_Tables:
+    db=""
+    def __init__(self):
+        self.db=mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
+            database="datarepresentation")
+
+    def create_student(self):
+        try:
+            cursor=self.db.cursor()
+            sql="CREATE TABLE student (ID int auto_increment,Name varchar(255),Age int,PRIMARY KEY(ID));"
+            cursor.execute(sql)
+            return "Success"
+        except mysql.connector.Error as err:
+            return "Error: {}".format(err)
+    
+    def delete_student(self):
+        try:
+            cursor=self.db.cursor()
+            sql="DROP TABLE student;"
+            cursor.execute(sql)
+            return "Success"
+        except mysql.connector.Error as err:
+            return "Error: {}".format(err)
+
+    def create_lecturer(self):
+        try:
+            cursor=self.db.cursor()
+            sql="CREATE TABLE lecturer (ID int auto_increment,Name varchar(255),Age int,PRIMARY KEY(ID));"
+            cursor.execute(sql)
+            return "Success"
+        except mysql.connector.Error as err:
+            return "Error: {}".format(err)
+    
+    def delete_lecturer(self):
+        try:
+            cursor=self.db.cursor()
+            sql="DROP TABLE lecturer;"
+            cursor.execute(sql)
+            return "Success"
+        except mysql.connector.Error as err:
+            return "Error: {}".format(err)
+
+cadt =Create_and_Delete_Tables()
+
+
 class Join_Table:
     db=""
     def __init__(self):
@@ -143,7 +192,7 @@ class Join_Table:
     def inner_join(self):
         try:
             cursor=self.db.cursor()
-            sql="select * from lecturer l inner join student s on l.ID = s.ID;"
+            sql="select s.name, l.name from student s inner join lecturer l on l.ID = s.ID;"
             cursor.execute(sql)
             result=cursor.fetchall()
             return result

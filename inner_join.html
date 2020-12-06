@@ -351,12 +351,15 @@ body {
 
 <!--- The body of this webpage contains a description of the website and the various pages in it !--->
 <body>
-	 <h1>Inner join student and lecturer</h1>
+	 <h1>Inner join student and lecturer on ID</h1>
+	 <h1 id="header2">Table output</h1>
 
 <!--- Div to  activate javascript function for ajax call-->
 <div id="form1" class="inpubox"><br>
 <button id="button_read1" onclick="inner_join()">Inner join</button></div>
-<p id="test0">The joined table will appear to the right of this form when you click the button above</p>
+<p id="test0">The joined table will appear to the right of this form when you click the <br> button above. Names from 
+	the student and lecturer tables will appear.
+</p>
 <p id="test2"></p>
 
 <br>
@@ -388,12 +391,12 @@ function inner_join(){
 					{
 					txt = ""
 					txt = "<table border=1 id=\"table2\">";
-					txt += "<th>ID</th><th>Name</th><th>Age</th>"
+					txt += "<th>Student Name</th><th>Lecturer Name</th>"
 
 					for (i=0; i<result.length; i++){
 						txt += "<tr>";
 
-						for (j=0; j<3; j++){
+						for (j=0; j<2; j++){
 							txt += "<td>" + JSON.stringify(result[i][j]) + "</td>";
 						} 
 						txt += "</tr>";

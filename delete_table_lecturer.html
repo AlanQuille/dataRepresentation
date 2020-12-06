@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <title>Delete lecturer table</title>
+
+  </head>
+
+  <style>
+    </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  
+  <body>
+
+
+
+
+  </body>
+
+  <script>
+
+    // Logs user out using logout() function
+    // in flask, then sends user
+    // to login.html
+    window.onload = function delete_lecturer(){
+            $.ajax({
+                url: "delete_table_lecturer",
+                method: "GET",
+                dataType:"JSON",
+                success: function(result){
+                  alert(result);
+
+					        location.replace("homepage.html")
+					
+					
+                },
+                error: function(xhr, status, error){
+                    console.log("error " + status + " msg:"+error);
+                }
+
+            });
+        }
+
+
+
+      
+  </script>
+</html>

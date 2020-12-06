@@ -5,6 +5,7 @@ from flask import Flask, jsonify,  request, abort, make_response, session, abort
 from tablesDAO import studentDAO
 from tablesDAO import lecturerDAO
 from tablesDAO import jointable
+from tablesDAO import cadt
 # import googleAPI to import gmail 
 # messages
 from googleAPI import googleAPI
@@ -143,13 +144,13 @@ def gmail():
    # if error free
         values = (entry1, entry2)
         if(table_var==0):
-            s.create(values)
+            return_str = str(s.create(values))
             if(return_str[:5]=="Error"):
                 errors += 1
             else:
                 successful_entries += 1    
         else:
-            return_str = l.create(values)
+            return_str = str(l.create(values))
             if(return_str[:5]=="Error"):
                 errors += 1
             else:
@@ -171,6 +172,28 @@ def change_table():
         return jsonify("Table changed to student table")
 
 
+
+cl = cadt
+
+# this function creates the student table
+@app.route('/create_table_student', methods=['GET'])
+def create_student():
+    return(jsonify(cl.create_student()))
+
+# this function deletes the student table
+@app.route('/delete_table_student', methods=['GET'])
+def delete_student():
+    return(jsonify(cl.delete_student()))
+
+# this function creates the student table
+@app.route('/create_table_lecturer', methods=['GET'])
+def create_lecturer():
+    return(jsonify(cl.create_lecturer()))
+
+# this function creates the student table
+@app.route('/delete_table_lecturer', methods=['GET'])
+def delete_lecturer():
+    return(jsonify(cl.delete_lecturer()))
 
 # thhis creates new rows in lecturer or
 # student table    
@@ -217,7 +240,7 @@ def read1():
             test_str = s.findByID(values)
         if(s.findByID(values)==None):
             student = "Error! ID not present."
-        elif(test_str !="Error"):
+        elif(test_str[:5] !="Error"):
             student["name"] = s.findByID(values)[1]
             student["age"] = s.findByID(values)[2]
         else:
