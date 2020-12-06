@@ -1,13 +1,14 @@
 import mysql.connector
 class StudentDAO:
     db=""
+    # password = Pericles1.
     def __init__(self):
         self.db=mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
+            host="Mamq.mysql.pythonanywhere-services.com",
+            user="Mamq",
+            password="datarep1",
             #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
-            database="datarepresentation")
+            database="Mamq$datarepresentation")
     def create(self,values):
         try:
             cursor=self.db.cursor()
@@ -69,11 +70,11 @@ class LecturerDAO:
     db=""
     def __init__(self):
         self.db=mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
+            host="Mamq.mysql.pythonanywhere-services.com",
+            user="Mamq",
+            password="datarep1",
             #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
-            database="datarepresentation")
+            database="Mamq$datarepresentation")
     def create(self,values):
         try:
           cursor=self.db.cursor()
@@ -134,11 +135,11 @@ class Create_and_Delete_Tables:
     db=""
     def __init__(self):
         self.db=mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
+            host="Mamq.mysql.pythonanywhere-services.com",
+            user="Mamq",
+            password="datarep1",
             #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
-            database="datarepresentation")
+            database="Mamq$datarepresentation")
 
     def create_student(self):
         try:
@@ -183,11 +184,11 @@ class Join_Table:
     db=""
     def __init__(self):
         self.db=mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
+            host="Mamq.mysql.pythonanywhere-services.com",
+            user="Mamq",
+            password="datarep1",
             #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
-            database="datarepresentation")
+            database="Mamq$datarepresentation")
 
     def inner_join(self):
         try:
