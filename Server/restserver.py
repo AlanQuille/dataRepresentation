@@ -2,10 +2,7 @@
 # import flask functions
 from flask import Flask, jsonify,  request, abort, make_response, session, abort, redirect, url_for, g
 # import mysql classes for connection to database
-from tablesDAO import studentDAO
-from tablesDAO import lecturerDAO
-from tablesDAO import jointable
-from tablesDAO import cadt
+from tablesDAO import connectDAO
 # import googleAPI to import gmail 
 # messages
 from googleAPI import googleAPI
@@ -21,8 +18,8 @@ app = Flask(__name__,
 app.secret_key = 'Gardenhill'
 
 # for SQL connection, lecturer and student tables
-s = studentDAO
-l = lecturerDAO
+c = connectDAO
+
 
 # determine which table is changed
 # at the moment it is set to 
@@ -144,13 +141,13 @@ def gmail():
    # if error free
         values = (entry1, entry2)
         if(table_var==0):
-            return_str = str(s.create(values))
+            return_str = str(c.create(values))
             if(return_str[:5]=="Error"):
                 errors += 1
             else:
                 successful_entries += 1    
         else:
-            return_str = str(l.create(values))
+            return_str = str(c.create_l(values))
             if(return_str[:5]=="Error"):
                 errors += 1
             else:
@@ -178,22 +175,22 @@ cl = cadt
 # this function creates the student table
 @app.route('/create_table_student', methods=['GET'])
 def create_student():
-    return(jsonify(cl.create_student()))
+    return(jsonify(c.create_student()))
 
 # this function deletes the student table
 @app.route('/delete_table_student', methods=['GET'])
 def delete_student():
-    return(jsonify(cl.delete_student()))
+    return(jsonify(c.delete_student()))
 
 # this function creates the student table
 @app.route('/create_table_lecturer', methods=['GET'])
 def create_lecturer():
-    return(jsonify(cl.create_lecturer()))
+    return(jsonify(c.create_lecturer()))
 
 # this function creates the student table
 @app.route('/delete_table_lecturer', methods=['GET'])
 def delete_lecturer():
-    return(jsonify(cl.delete_lecturer()))
+    return(jsonify(c.delete_lecturer()))
 
 # thhis creates new rows in lecturer or
 # student table    
@@ -211,9 +208,9 @@ def create():
             }
     values = (student["name"], student["age"])
     if(table_var==0):
-        return_str = s.create(values)
+        return_str = c.create(values)
     else:
-        return_str = l.create(values)
+        return_str = c.create_l(values)
 
     if return_str == "Success":
         return jsonify( {'student':student }),201
@@ -236,25 +233,25 @@ def read1():
     values = student['id']
     test_str = ""
     if(table_var == 0):
-        if(isinstance(s.findByID(values), str)):
-            test_str = s.findByID(values)
+        if(isinstance(c.findByID(values), str)):
+            test_str = c.findByID(values)
         if(s.findByID(values)==None):
             student = "Error! ID not present."
         elif(test_str[:5] !="Error"):
-            student["name"] = s.findByID(values)[1]
-            student["age"] = s.findByID(values)[2]
+            student["name"] = c.findByID(values)[1]
+            student["age"] = c.findByID(values)[2]
         else:
-            student = s.findByID(values)
+            student = c.findByID(values)
     else:
-        if(isinstance(l.findByID(values), str)):
-            test_str = l.findByID(values)
+        if(isinstance(c.findByID_l(values), str)):
+            test_str = c.findByID_l(values)
         if(l.findByID(values)==None):
             student = "Error! ID not present."
         elif(test_str[:5] !="Error"):
-            student["name"] = l.findByID(values)[1]
-            student["age"] = l.findByID(values)[2]
+            student["name"] = c.findByID_l(values)[1]
+            student["age"] = c.findByID_l(values)[2]
         else:
-            student = l.findByID(values)
+            student = c.findByID_l(values)
             
 
 
@@ -273,11 +270,11 @@ def read2():
         return jsonify(l.getAll()),201
     #return jsonify(values),201
 
-    
+
 # inner join student and lecturer table
 @app.route('/inner_join', methods=['GET'])
 def inner_join():
-    return jsonify(cadt.inner_join())
+    return jsonify(c.inner_join())
     #return jsonify(values),201
 
 
@@ -301,17 +298,17 @@ def update():
         if(s.findByID(test_values)==None):
             student = "Error! ID not present."
         elif(s.findByID(values)[:5] != "Error"):
-            s.update(values)
+            c.update(values)
         else:
             student = s.update(values)
-    else:
-        if(l.findByID(test_values)==None):
+    else:l
+        if(c.findByID_l(test_values)==None):
             student = "Error! ID not present."
-        elif(l.findByID(values)[:5] != "Error"):
+        elif(c.findByID_(values)[:5] != "Error"):
             #print(l.findByID(values)[:5])
-            l.update(values)
+            c.update_l(values)
         else:
-            student = l.update(values)
+            student = c.update_l(values)
 
     return jsonify(student),201
     #return jsonify(values),201
@@ -327,23 +324,23 @@ def delete():
         abort(400)
     student={
         "id" : request.json['id']
-    }
+    }s
     values = student["id"]
     if(table_var==0):
-        if(s.findByID(values)==None):
+        if(c.findByID(values)==None):
             student = "Error! ID not present."
-        elif(s.findByID(values)=="Success"):
-            s.delete(values)
+        elif(c.findByID(values)=="Success"):
+            c.delete(values)
         else:
-            student = s.delete(values)
+            student = c.delete(values)
 
     else:
-        if(l.findByID(values)==None):
+        if(c.findByID_l(values)==None):
             student = "Error! ID not present."
-        elif(l.findByID(values)=="Success"):
-            l.delete(values)
+        elif(c.findByID_l(values)=="Success"):
+            c.delete_l(values)
         else:
-            student = l.delete(values)
+            student = c.delete_l(values)
     return jsonify(student),201
     #return jsonify(values),201
 

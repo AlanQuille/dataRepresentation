@@ -1,5 +1,5 @@
 import mysql.connector
-class StudentDAO:
+class ConnectDAO:
     db=""
     # password = Pericles1.
     def __init__(self):
@@ -62,20 +62,8 @@ class StudentDAO:
                 return self.findByID(id)
         except mysql.connector.Error as err:
             return "Error: {}".format(err)
-
-        
-studentDAO=StudentDAO()
-
-class LecturerDAO:
-    db=""
-    def __init__(self):
-        self.db=mysql.connector.connect(
-            host="Mamq.mysql.pythonanywhere-services.com",
-            user="Mamq",
-            password="datarep1",
-            #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
-            database="Mamq$datarepresentation")
-    def create(self,values):
+    
+    def create_l(self,values):
         try:
           cursor=self.db.cursor()
           sql="insert into lecturer (Name,Age) values(%s,%s)"
@@ -85,7 +73,7 @@ class LecturerDAO:
         except mysql.connector.Error as err:
             return "Error: {}".format(err)
 
-    def getAll(self):
+    def getAll_l(self):
         try:
             cursor=self.db.cursor()
             sql="select *from lecturer"
@@ -94,7 +82,7 @@ class LecturerDAO:
             return result
         except mysql.connector.Error as err:
             return "Error: {}".format(err)
-    def findByID(self,id):
+    def findByID_l(self,id):
         try:
             cursor=self.db.cursor()
             sql="select * from lecturer where id=%s"
@@ -105,7 +93,7 @@ class LecturerDAO:
         except mysql.connector.Error as err:
             return "Error: {}".format(err)
 
-    def update(self,values):
+    def update_l(self,values):
         try:
             cursor=self.db.cursor()
             sql="update lecturer set name=%s, age=%s where id=%s"
@@ -116,7 +104,7 @@ class LecturerDAO:
             return "Error: {}".format(err)
 
         
-    def delete(self,id):
+    def delete_l(self,id):
         try:
             cursor=self.db.cursor()
             sql="delete from lecturer where id=%s"
@@ -127,19 +115,6 @@ class LecturerDAO:
         except mysql.connector.Error as err:
             return "Error: {}".format(err)
 
-
-lecturerDAO=LecturerDAO()
-
-
-class Create_and_Delete_And_Join_Tables:
-    db=""
-    def __init__(self):
-        self.db=mysql.connector.connect(
-            host="Mamq.mysql.pythonanywhere-services.com",
-            user="Mamq",
-            password="datarep1",
-            #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
-            database="Mamq$datarepresentation")
 
     def create_student(self):
         try:
@@ -187,5 +162,5 @@ class Create_and_Delete_And_Join_Tables:
         except mysql.connector.Error as err:
             return "Error: {}".format(err)
 
-cadt =Create_and_Delete_And_Join_Tables()
-
+        
+connectDAO=ConnectDAO()
