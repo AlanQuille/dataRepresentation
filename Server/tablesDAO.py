@@ -131,7 +131,7 @@ class LecturerDAO:
 lecturerDAO=LecturerDAO()
 
 
-class Create_and_Delete_Tables:
+class Create_and_Delete_And_Join_Tables:
     db=""
     def __init__(self):
         self.db=mysql.connector.connect(
@@ -177,19 +177,6 @@ class Create_and_Delete_Tables:
         except mysql.connector.Error as err:
             return "Error: {}".format(err)
 
-cadt =Create_and_Delete_Tables()
-
-
-class Join_Table:
-    db=""
-    def __init__(self):
-        self.db=mysql.connector.connect(
-            host="Mamq.mysql.pythonanywhere-services.com",
-            user="Mamq",
-            password="datarep1",
-            #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
-            database="Mamq$datarepresentation")
-
     def inner_join(self):
         try:
             cursor=self.db.cursor()
@@ -200,4 +187,5 @@ class Join_Table:
         except mysql.connector.Error as err:
             return "Error: {}".format(err)
 
-jointable = Join_Table()
+cadt =Create_and_Delete_And_Join_Tables()
+

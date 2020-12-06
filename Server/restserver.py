@@ -273,12 +273,11 @@ def read2():
         return jsonify(l.getAll()),201
     #return jsonify(values),201
 
-j = jointable
-
+    
 # inner join student and lecturer table
 @app.route('/inner_join', methods=['GET'])
 def inner_join():
-    return jsonify(j.inner_join())
+    return jsonify(cadt.inner_join())
     #return jsonify(values),201
 
 
