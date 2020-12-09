@@ -169,9 +169,6 @@ def change_table():
         return jsonify("Table changed to student table")
 
 
-
-cl = cadt
-
 # this function creates the student table
 @app.route('/create_table_student', methods=['GET'])
 def create_student():
@@ -235,7 +232,7 @@ def read1():
     if(table_var == 0):
         if(isinstance(c.findByID(values), str)):
             test_str = c.findByID(values)
-        if(s.findByID(values)==None):
+        if(c.findByID(values)==None):
             student = "Error! ID not present."
         elif(test_str[:5] !="Error"):
             student["name"] = c.findByID(values)[1]
@@ -245,7 +242,7 @@ def read1():
     else:
         if(isinstance(c.findByID_l(values), str)):
             test_str = c.findByID_l(values)
-        if(l.findByID(values)==None):
+        if(c.findByID_l(values)==None):
             student = "Error! ID not present."
         elif(test_str[:5] !="Error"):
             student["name"] = c.findByID_l(values)[1]
@@ -265,9 +262,9 @@ def read1():
 def read2():
     global table_var
     if(table_var == 0):
-        return jsonify(s.getAll()),201
+        return jsonify(c.getAll()),201
     else:
-        return jsonify(l.getAll()),201
+        return jsonify(c.getAll_l()),201
     #return jsonify(values),201
 
 
@@ -295,16 +292,16 @@ def update():
     test_values = student["id"]
     values = (student["name"], student["age"], student["id"])
     if(table_var == 0):
-        if(s.findByID(test_values)==None):
+        if(c.findByID(test_values)==None):
             student = "Error! ID not present."
-        elif(s.findByID(values)[:5] != "Error"):
+        elif(c.findByID(test_values)[:5] != "Error"):
             c.update(values)
         else:
             student = s.update(values)
-    else:l
+    else:
         if(c.findByID_l(test_values)==None):
             student = "Error! ID not present."
-        elif(c.findByID_(values)[:5] != "Error"):
+        elif(c.findByID_(test_values)[:5] != "Error"):
             #print(l.findByID(values)[:5])
             c.update_l(values)
         else:
@@ -324,7 +321,7 @@ def delete():
         abort(400)
     student={
         "id" : request.json['id']
-    }s
+    }
     values = student["id"]
     if(table_var==0):
         if(c.findByID(values)==None):

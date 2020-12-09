@@ -74,6 +74,7 @@
   </body>
 
   <script>
+    host = window.location.origin;
 
 // login function, will return to this page
 // if login is successful, else it will 
@@ -84,7 +85,7 @@ function login() {
             var password = document.getElementById("password").value;
             var login_attempt={"username":username,"password":password};
             $.ajax({
-                "url":"login",
+                "url": host + "/login",
                 "method":"POST",
                 "data":JSON.stringify(login_attempt),
                 "dataType":"JSON",
@@ -96,12 +97,12 @@ function login() {
                     if(sorf == 1)
                     {
                       alert("Logged in!");
-                      location.replace("homepage.html");
+                      location.replace(host + "/homepage.html");
                     }
                     else
                     {
                       alert("Username or password incorrect!")
-                      window.location.replace = "login.html"
+                      window.location.replace = host + "/login.html"
                     }
                     
                 },

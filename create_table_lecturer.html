@@ -17,19 +17,43 @@
   </body>
 
   <script>
+    host = window.location.origin;
 
-    // Logs user out using logout() function
-    // in flask, then sends user
-    // to login.html
-    window.onload = function create_lecturer(){
+
+window.onload = function logged_in(){
             $.ajax({
-                url: "create_table_lecturer",
+                url: host + "/verify",
+                method: "GET",
+                dataType:"JSON",
+                success: function(result){
+					console.log(result)
+					
+					if(result=='0')
+					{
+					location.replace(host + "/login.html")
+					}
+          else
+          {
+            create_lecturer()
+          }
+					
+                },
+                error: function(xhr, status, error){
+                    console.log("error " + status + " msg:"+error);
+                }
+
+            })
+        }
+
+    function create_lecturer(){
+            $.ajax({
+                url: host + "/create_table_lecturer",
                 method: "GET",
                 dataType:"JSON",
                 success: function(result){
                   alert(result);
 
-					        location.replace("homepage.html")
+					        location.replace(host + "/homepage.html")
 					
 					
                 },

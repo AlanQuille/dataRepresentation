@@ -17,19 +17,46 @@
   </body>
 
   <script>
+    host = window.location.origin;
+
+    
+window.onload = function logged_in(){
+            $.ajax({
+                url: host + "/verify",
+                method: "GET",
+                dataType:"JSON",
+                success: function(result){
+					console.log(result)
+					
+					if(result=='0')
+					{
+					location.replace(host + "/login.html")
+					}
+          else
+          {
+            delete_lecturer()
+          }
+					
+                },
+                error: function(xhr, status, error){
+                    console.log("error " + status + " msg:"+error);
+                }
+
+            })
+        }
 
     // Logs user out using logout() function
     // in flask, then sends user
     // to login.html
-    window.onload = function delete_lecturer(){
+    function delete_lecturer(){
             $.ajax({
-                url: "delete_table_lecturer",
+                url: host + "/delete_table_lecturer",
                 method: "GET",
                 dataType:"JSON",
                 success: function(result){
                   alert(result);
 
-					        location.replace("homepage.html")
+					        location.replace(host + "/homepage.html")
 					
 					
                 },

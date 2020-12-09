@@ -17,17 +17,45 @@
   </body>
 
   <script>
+    host = window.location.origin;
+
+// If not logged in, go back to login
+// else change table
+window.onload = function logged_in(){
+            $.ajax({
+                url: host + "/verify",
+                method: "GET",
+                dataType:"JSON",
+                success: function(result){
+					console.log(result)
+					
+					if(result=='0')
+					{
+					location.replace(host + "/login.html")
+					}
+          else
+          {
+            change_table()
+          }
+					
+                },
+                error: function(xhr, status, error){
+                    console.log("error " + status + " msg:"+error);
+                }
+
+            })
+        }
 
     
-window.onload = function change_table(){
+function change_table(){
             $.ajax({
-                url: "change_table",
+                url: host + "/change_table",
                 method: "GET",
                 dataType:"JSON",
                 success: function(result){
                   alert(result);
 
-					        location.replace("homepage.html")
+					        location.replace(host + "/homepage.html")
 					
 					
                 },
