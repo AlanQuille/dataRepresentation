@@ -31,5 +31,9 @@ This repository is available online <a href="https://github.com/AlanQuille/dataR
 The app is hosted online [http://mamq.pythonanywhere.com](http://mamq.pythonanywhere.com "here")
 
 ### load.sql ###
-Optionally, you can create the database "datarepresentation" and the student and lecturer tables automatically by running load.sql in this directory. Some sample data is also input into the table.
+Optionally, you can create the database "datarepresentation" and the student and lecturer tables automatically by running load.sql in this directory. Some sample data is also input into the table. Run in a database called datarepresentation with the following command:
+
+mysql -h localhost -u root datarepresentation < /path/to/load.sql
+
+
 
