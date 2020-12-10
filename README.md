@@ -16,7 +16,7 @@ If you're navigating the web server via a browser, to login use the following cr
 
 *Username*: **root**
 
-*Password*: 
+*Password*: **Pericles1.**
 
 
 And press Enter (to clarify, the password is a blank string).
@@ -26,4 +26,10 @@ The server allows one to change the current table being operated on from student
 
 ### Github link ###
 This repository is available online <a href="https://github.com/AlanQuille/dataRepresentation">here</a>
+
+### Pythonanywhere hosting link ###
+The app is hosted online [http://mamq.pythonanywhere.com](http://mamq.pythonanywhere.com "here")
+
+### load.sql ###
+Optionally, you can create the database "datarepresentation" and the student and lecturer tables automatically by running load.sql in this directory.
 

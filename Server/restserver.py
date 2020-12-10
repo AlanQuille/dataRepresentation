@@ -56,7 +56,7 @@ class User:
 
 users = []
 # sole login is root and password = ''
-users.append(User(username='root', password=''))
+users.append(User(username='root', password='Pericles1.'))
 
 # this function makes sure every function
 # no matter what the app route
