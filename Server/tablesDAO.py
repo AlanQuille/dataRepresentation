@@ -1,14 +1,15 @@
 import mysql.connector
+import config as cf
 class ConnectDAO:
     db=""
-    # password = Pericles1.
+    # password = Pericle[s1.
     def __init__(self):
         self.db=mysql.connector.connect(
-            host="Mamq.mysql.pythonanywhere-services.com",
-            user="Mamq",
-            password="datarep1",
+            host=cf.conn2['host'],
+            user=cf.conn2['user'],
+            password=cf.conn2['password'],
             #user="datarep",#thisistheusernameonmymac#passwd="password"#formymac
-            database="Mamq$datarepresentation")
+            database=cf.conn2['database'])
     def create(self,values):
         try:
             cursor=self.db.cursor()

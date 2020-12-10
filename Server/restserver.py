@@ -301,7 +301,7 @@ def update():
     else:
         if(c.findByID_l(test_values)==None):
             student = "Error! ID not present."
-        elif(c.findByID_(test_values)[:5] != "Error"):
+        elif(c.findByID_l(test_values)[:5] != "Error"):
             #print(l.findByID(values)[:5])
             c.update_l(values)
         else:
